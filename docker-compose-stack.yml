@@ -1,0 +1,30 @@
+version : "3.6"
+
+# * --- --- ---
+# * deploy as a part of docker stack: 0_hook
+# * --- --- ---
+services:
+  mattermost-git:
+    image: 127.0.0.1:5000/0_hook/softdevteam__mattermost-github-integration:0.1.0
+    networks:
+      - proxy
+    environment:
+      URL_PREFIX: /hook/git
+      MM_HOOK_URL: https://xxx.xxx.com/hooks/xxx
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints:
+          - node.labels.xxx_service == Y
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.servicePath=/hook/git
+        - com.df.port=8080
+
+networks:
+  proxy:
+    external: true

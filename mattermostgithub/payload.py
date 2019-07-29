@@ -2,7 +2,7 @@ from io import BytesIO
 import requests
 try:
     from PIL import Image
-    from mattermostgithub.config import SHOW_AVATARS
+    from config import SHOW_AVATARS
 except ImportError:
     SHOW_AVATARS = False
 

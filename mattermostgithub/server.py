@@ -2,20 +2,17 @@ import json
 import hmac
 import hashlib
 import requests
-from flask import request
+from flask import Flask, request
 
-try:
-    from mattermostgithub import config
-except ImportError:
-    print("Could not import config. Using test-config instead.")
-    from tests import config
+import config
 
-from mattermostgithub.payload import (
+from payload import (
     PullRequest, PullRequestReview, PullRequestComment, Issue, IssueComment,
     Repository, Branch, Push, Tag, CommitComment, Wiki, Status
 )
 
-from mattermostgithub import app
+app = Flask(__name__)
+
 
 SECRET = hmac.new(config.SECRET.encode('utf8'), digestmod=hashlib.sha1) if config.SECRET else None
 
